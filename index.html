@@ -159,20 +159,15 @@ button,select,input{font-family:inherit;font-size:inherit;}
 }
 .date-ctl:hover,.date-ctl:focus{border-color:var(--accent);color:var(--text-1);}
 .date-sep{font-size:11px;color:var(--text-dis);}
-/* ── User avatar menu ── */
-.user-menu{
-  display:flex;align-items:center;gap:8px;
-  padding:3px 10px 3px 3px;border-radius:999px;
-  border:1px solid transparent;cursor:pointer;
-  transition:background .15s,border-color .15s;
-  position:relative;
+.theme-btn{
+  width:32px;height:32px;border-radius:50%;
+  background:var(--surface-raised);border:1px solid var(--border-strong);
+  cursor:pointer;display:flex;align-items:center;justify-content:center;
+  transition:background .18s,transform .3s,border-color .35s;
 }
-.user-menu:hover{background:var(--surface-raised);border-color:var(--border-strong);}
-.user-avatar-hdr{
-  width:30px;height:30px;border-radius:50%;object-fit:cover;flex-shrink:0;
-  border:2px solid var(--accent);
-  transition:border-color .35s;
-}
+
+.theme-btn:hover{background:var(--surface-hover);transform:rotate(22deg);}
+
 .user-name{font-size:12px;font-weight:600;color:var(--text-2);white-space:nowrap;}
 
 /* ═══ FILTER STRIP ═══ */
@@ -573,13 +568,9 @@ td{padding:10px 15px;color:var(--text-1);}
       <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M6 1v7M3.5 6.5l2.5 2.5 2.5-2.5M1 9.5v1A.5.5 0 001.5 11h9a.5.5 0 00.5-.5v-1" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Export report
     </button>
-    <div class="user-menu" title="James Okafor · Portfolio Director">
-      <img class="user-avatar-hdr"
-           src="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=64&h=64&fit=crop&crop=faces&auto=format&q=80"
-           alt="James Okafor"
-           onerror="this.style.display='none'">
-      <span class="user-name">James O.</span>
-    </div>
+    <button class="theme-btn" id="themeBtn" onclick="toggleTheme()" title="Toggle theme">
+      <!-- icon replaced by JS -->
+    </button>
   </div>
 </header>
 
