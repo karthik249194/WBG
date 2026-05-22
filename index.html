@@ -912,7 +912,7 @@ const PERIOD_DATA = {
 
 const CRITICAL = [
   {type:'project',    id:9,  name:'Financial Inclusion — Colombia',    start:'2023-12-01', end:'2026-02-28', status:'Overdue',   contact:'Sarah Chen',       cDate:'2026-05-10', reason:'Compliance audit pending since Q4 2025; blocking disbursement.', daysLeft:-83},
-  {type:'compliance', id:'c1',name:'EIA Submission — Water & Sanitation Morocco', start:'2026-05-01', end:'2026-08-31', lead:'Fatima Al-Rashid', daysLeft:3},
+  {type:'compliance', id:'c1',name:'EIA Submission — Water & Sanitation Morocco', start:'2026-05-01', end:'2026-08-31', lead:'Fatima Al-Rashid', daysLeft:3, cDate:'2026-05-20'},
   {type:'project',    id:1,  name:'Rural Electrification — Kenya',     start:'2024-07-15', end:'2026-09-30', status:'At Risk',   contact:'Sarah Chen',       cDate:'2026-05-10', reason:'Contractor delays causing slippage in procurement phase.',     daysLeft:131},
   {type:'project',    id:7,  name:'Agricultural Productivity — India', start:'2024-03-01', end:'2026-10-31', status:'At Risk',   contact:'Priya Nair',       cDate:'2026-05-15', reason:'Monsoon season disrupting field monitoring operations.',        daysLeft:162},
 ];
@@ -1307,6 +1307,7 @@ function renderCards(items) {
             ${fd(item.start)} → ${fd(item.end)}
           </div>
           <div class="cmeta-lead">${avatarEl}${item.lead ?? item.contact}</div>
+          ${item.cDate ? `<div class="cnotif-line"><svg width="10" height="10" viewBox="0 0 14 14" fill="currentColor"><path d="M7 1a1 1 0 0 0-1 1v.28A4 4 0 0 0 3 6.5v2.1L2 9.9A.5.5 0 0 0 2.5 11h9a.5.5 0 0 0 .4-.8l-1-1.3V6.5A4 4 0 0 0 8 2.28V2a1 1 0 0 0-1-1zm0 12a1.5 1.5 0 0 0 1.5-1.5h-3A1.5 1.5 0 0 0 7 13z"/></svg>Agent notification sent · ${fd(item.cDate)}</div>` : ''}
         </div>
         <div class="${dbCls}"><div class="dnum">${daysNum}</div><div class="dlbl">${daysLbl}</div></div>`;
     }
