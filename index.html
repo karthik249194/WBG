@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Karthikeyan Sridhar — Strategic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html,body{height:100%;overflow:hidden;}
+body{
+  font-family:'Plus Jakarta Sans',sans-serif;
+  background:#F5F4F0;
+  color:#111;
+  cursor:none;
+}
+
+/* ── Cursor ── */
+#cur-dot{position:fixed;width:7px;height:7px;background:#023047;border-radius:50%;pointer-events:none;z-index:9999;transform:translate(-50%,-50%);transition:background .2s,width .2s,height .2s;}
+#cur-ring{position:fixed;width:30px;height:30px;border:1.5px solid rgba(2,48,71,.5);border-radius:50%;pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width .3s,height .3s,border-color .3s;}
+.cursor-grow #cur-ring{width:50px;height:50px;border-color:#D90429;}
+.cursor-grow #cur-dot{background:#D90429;width:5px;height:5px;}
+
+/* ── Nav ── */
+nav{
+  position:fixed;top:0;left:0;right:0;height:60px;
+  background:rgba(245,244,240,.88);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  border-bottom:1px solid rgba(0,0,0,.06);
+  display:flex;align-items:center;
+  padding:0 36px;gap:40px;z-index:200;
+}
+.nav-logo{font-size:16px;font-weight:800;color:#023047;letter-spacing:-.5px;flex-shrink:0;}
+.nav-logo span{color:#D90429;}
+.nav-tabs{display:flex;align-items:center;gap:2px;flex:1;}
+.ntab{
+  padding:7px 15px;border:none;background:transparent;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:500;
+  color:#999;cursor:none;border-radius:8px;
+  transition:color .2s,background .2s;letter-spacing:-.1px;
+}
+.ntab:hover{color:#023047;background:rgba(2,48,71,.06);}
+.ntab.active{color:#023047;background:rgba(2,48,71,.09);font-weight:700;}
+.nav-ctas{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+
+/* ── Buttons ── */
+.btn{
+  padding:8px 18px;border-radius:8px;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:13px;font-weight:700;
+  cursor:none;text-decoration:none;display:inline-flex;align-items:center;gap:6px;
+  transition:transform .2s,box-shadow .2s,background .2s,color .2s;
+  letter-spacing:-.1px;
+}
+.btn:hover{transform:translateY(-2px);}
+.btn-dark{background:#023047;color:#fff;border:none;}
+.btn-dark:hover{background:#012233;box-shadow:0 6px 20px rgba(2,48,71,.3);}
+.btn-ghost{background:transparent;color:#023047;border:1.5px solid #023047;}
+.btn-ghost:hover{background:#023047;color:#fff;}
+.btn-lg{padding:13px 26px;font-size:14px;}
+
+/* ── Section panels ── */
+main{position:relative;}
+.panel{
+  position:fixed;top:60px;left:0;right:0;bottom:0;
+  padding:28px 40px;
+  display:flex;flex-direction:column;gap:18px;
+  opacity:0;pointer-events:none;
+  transform:translateY(14px);
+  transition:opacity .38s ease,transform .38s ease;
+  overflow:hidden;
+}
+.panel.active{opacity:1;pointer-events:all;transform:translateY(0);}
+
+/* ── Section header ── */
+.sh{display:flex;align-items:baseline;justify-content:space-between;flex-shrink:0;}
+.sh-title{font-size:26px;font-weight:800;letter-spacing:-.7px;color:#111;}
+.sh-sub{font-size:13px;color:#bbb;font-weight:400;}
+
+/* ── Cards grid ── */
+.grid{display:grid;gap:18px;}
+.g3{grid-template-columns:repeat(3,1fr);}
+.g2{grid-template-columns:repeat(2,1fr);}
+.g4{grid-template-columns:repeat(4,1fr);}
+
+/* ── Card (portrait — AI experiments, UI works) ── */
+.card{
+  background:#fff;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 2px 20px rgba(0,0,0,.06);
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;cursor:none;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;
+  min-height:0;
+}
+.card:hover{
+  transform:translateY(-9px) scale(1.01);
+  box-shadow:0 18px 52px rgba(0,0,0,.13);
+}
+.card-img{position:relative;overflow:hidden;flex-shrink:0;background:#ECEAEA;}
+.card-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.card:hover .card-img img{transform:scale(1.06);}
+.card-overlay{
+  position:absolute;bottom:0;left:0;right:0;padding:10px 12px;
+  display:flex;align-items:flex-end;justify-content:space-between;
+  background:linear-gradient(to top,rgba(0,0,0,.32) 0%,transparent 100%);
+}
+.badge{
+  display:inline-flex;align-items:center;gap:5px;
+  background:#fff;border-radius:20px;padding:4px 11px;
+  font-size:11px;font-weight:700;color:#111;letter-spacing:.1px;
+}
+.bdot{width:6px;height:6px;border-radius:50%;flex-shrink:0;}
+.card-iaction{
+  width:30px;height:30px;background:#fff;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;box-shadow:0 2px 8px rgba(0,0,0,.12);
+}
+.card-body{padding:16px 18px;flex:1;display:flex;flex-direction:column;}
+.card-metric{display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px;}
+.card-name{font-size:18px;font-weight:800;letter-spacing:-.4px;color:#111;}
+.card-rating{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:700;color:#111;}
+.star{color:#F5A623;}
+.cdiv{height:1px;background:#F0F0EE;margin:8px 0;}
+.card-title-sm{font-size:14px;font-weight:700;color:#111;letter-spacing:-.2px;margin-bottom:4px;}
+.card-desc{font-size:12px;color:#888;line-height:1.55;flex:1;}
+.card-foot{display:flex;align-items:center;justify-content:space-between;margin-top:10px;}
+.tags{display:flex;flex-wrap:wrap;gap:4px;}
+.tag{font-size:10px;font-weight:700;color:#023047;background:rgba(2,48,71,.07);padding:2px 8px;border-radius:10px;}
+.cta-link{font-size:12px;font-weight:700;color:#023047;display:flex;align-items:center;gap:3px;transition:gap .2s;}
+.card:hover .cta-link{gap:7px;}
+
+/* ── Landscape card (case studies) ── */
+.lcard{
+  background:#fff;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 2px 20px rgba(0,0,0,.06);
+  display:flex;text-decoration:none;color:inherit;cursor:none;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;
+}
+.lcard:hover{transform:translateY(-7px);box-shadow:0 16px 48px rgba(0,0,0,.12);}
+.lcard-img{width:260px;flex-shrink:0;overflow:hidden;background:#ECEAEA;}
+.lcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.lcard:hover .lcard-img img{transform:scale(1.05);}
+.lcard-body{padding:24px 28px;display:flex;flex-direction:column;justify-content:space-between;flex:1;}
+.cat-pill{display:inline-flex;align-items:center;border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;width:fit-content;margin-bottom:10px;}
+.lcard-title{font-size:20px;font-weight:800;letter-spacing:-.4px;color:#111;margin-bottom:8px;}
+.lcard-desc{font-size:13px;color:#666;line-height:1.6;}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.chip{background:rgba(2,48,71,.07);border-radius:8px;padding:4px 10px;font-size:11px;font-weight:700;color:#023047;}
+
+/* ── Award banner ── */
+.award{
+  display:flex;align-items:center;gap:14px;
+  background:linear-gradient(135deg,#FFFBEB,#FEF3C7);
+  border:1px solid rgba(245,166,35,.25);border-radius:12px;
+  padding:14px 20px;text-decoration:none;color:inherit;cursor:none;
+  transition:transform .2s,box-shadow .2s;flex-shrink:0;
+}
+.award:hover{transform:translateX(5px);box-shadow:0 4px 20px rgba(245,166,35,.2);}
+.award-ico{font-size:22px;}
+.award-text{font-size:14px;font-weight:700;color:#111;}
+.award-sub{font-size:12px;color:#999;margin-top:2px;}
+.award-arr{margin-left:auto;color:#F5A623;font-size:20px;font-weight:700;}
+
+/* ── Writing card ── */
+.wcard{
+  background:#fff;border-radius:16px;overflow:hidden;
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 2px 20px rgba(0,0,0,.06);
+  display:flex;flex-direction:column;
+  text-decoration:none;color:inherit;cursor:none;
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;
+}
+.wcard:hover{transform:translateY(-8px);box-shadow:0 18px 52px rgba(0,0,0,.12);}
+.wcard-img{overflow:hidden;flex-shrink:0;background:#ECEAEA;}
+.wcard-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.wcard:hover .wcard-img img{transform:scale(1.05);}
+.wcard-body{padding:14px 16px;}
+.wcard-title{font-size:13px;font-weight:700;color:#111;line-height:1.45;letter-spacing:-.1px;}
+
+/* ── UI Works scroll ── */
+.hscroll{display:flex;gap:18px;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;flex:1;align-items:stretch;padding-bottom:2px;}
+.hscroll::-webkit-scrollbar{display:none;}
+.hscroll .card{flex-shrink:0;width:240px;}
+
+/* ── Testimonial cards ── */
+.tcard{
+  background:#fff;border-radius:18px;overflow:hidden;
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 2px 20px rgba(0,0,0,.06);
+  transition:transform .35s cubic-bezier(.34,1.56,.64,1),box-shadow .35s ease;
+  flex-shrink:0;
+}
+.tcard:hover{transform:translateY(-8px);box-shadow:0 20px 56px rgba(0,0,0,.13);}
+.tcard img{width:100%;height:100%;object-fit:cover;display:block;}
+
+/* ── Section sub-tabs ── */
+.stabs{display:flex;gap:8px;}
+.stab{
+  padding:6px 15px;border-radius:20px;
+  border:1.5px solid #E3E3E3;background:transparent;
+  font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:700;
+  color:#999;cursor:none;transition:all .2s;
+}
+.stab:hover:not(.active){border-color:#023047;color:#023047;}
+.stab.active{background:#023047;border-color:#023047;color:#fff;}
+.tabcontent{display:none;flex:1;flex-direction:column;gap:16px;min-height:0;overflow:hidden;}
+.tabcontent.active{display:flex;}
+
+/* ── INTRO specific ── */
+#intro{flex-direction:row;align-items:center;gap:40px;padding-bottom:20px;}
+.intro-l{flex:1;display:flex;flex-direction:column;justify-content:center;}
+.intro-greet{font-size:14px;color:#aaa;font-weight:600;letter-spacing:.4px;text-transform:uppercase;margin-bottom:10px;}
+.intro-name{font-size:clamp(44px,5.5vw,68px);font-weight:800;letter-spacing:-2.5px;line-height:1.05;color:#0a0a0a;margin-bottom:14px;}
+.intro-pill{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(217,4,41,.08);color:#D90429;
+  padding:6px 14px;border-radius:20px;font-size:13px;font-weight:700;
+  margin-bottom:22px;width:fit-content;
+}
+.pulse{width:8px;height:8px;background:#D90429;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+.intro-bio{font-size:15px;line-height:1.7;color:#666;max-width:500px;margin-bottom:28px;}
+.intro-ctas{display:flex;gap:12px;margin-bottom:32px;}
+.intro-cos{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.cos-label{font-size:11px;font-weight:700;color:#ccc;text-transform:uppercase;letter-spacing:.5px;margin-right:4px;}
+.co-img{height:22px;object-fit:contain;filter:grayscale(1);opacity:.45;transition:opacity .3s,filter .3s;}
+.co-img:hover{opacity:1;filter:grayscale(0);}
+
+/* ── Stat cards (intro right) ── */
+.intro-r{
+  width:380px;flex-shrink:0;
+  display:grid;grid-template-columns:1fr 1fr;gap:14px;
+  align-content:center;
+}
+.stat-card{
+  background:#fff;border-radius:16px;padding:22px;
+  border:1px solid rgba(0,0,0,.05);
+  box-shadow:0 2px 16px rgba(0,0,0,.05);
+  transition:transform .3s ease,box-shadow .3s ease;
+}
+.stat-card:hover{transform:translateY(-4px);box-shadow:0 10px 30px rgba(0,0,0,.1);}
+.stat-val{font-size:34px;font-weight:800;color:#023047;letter-spacing:-1.5px;line-height:1;margin-bottom:5px;}
+.stat-lbl{font-size:11px;font-weight:600;color:#bbb;text-transform:uppercase;letter-spacing:.4px;line-height:1.4;}
+.stat-card.dk{background:#023047;}
+.stat-card.dk .stat-val{color:#fff;}
+.stat-card.dk .stat-lbl{color:rgba(255,255,255,.5);}
+.stat-card.soft{background:linear-gradient(135deg,#EBF5FF,#D6EBFF);}
+.stat-card.soft .stat-val{font-size:20px;letter-spacing:-.4px;}
+.stat-card.soft .stat-lbl{color:#4A7DAA;}
+
+/* ── Contact ── */
+#contact{justify-content:center;align-items:center;}
+.contact-box{text-align:center;max-width:560px;}
+.contact-eye{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:2px;color:#D90429;margin-bottom:14px;}
+.contact-h{font-size:clamp(36px,4vw,56px);font-weight:800;letter-spacing:-1.8px;color:#0a0a0a;line-height:1.1;margin-bottom:14px;}
+.contact-sub{font-size:15px;color:#999;margin-bottom:32px;line-height:1.7;}
+.contact-ctas{display:flex;gap:14px;justify-content:center;margin-bottom:48px;}
+.contact-ft{font-size:12px;color:#ccc;}
+
+/* ── Scroll hint ── */
+.scroll-hint{font-size:12px;color:#ccc;font-weight:500;display:flex;align-items:center;gap:5px;}
+
+/* ── Dot nav ── */
+.dot-nav{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%);
+  display:flex;gap:8px;z-index:300;
+}
+.dnav{
+  width:8px;height:8px;border-radius:4px;
+  background:rgba(2,48,71,.2);
+  border:none;cursor:none;padding:0;
+  transition:width .3s,background .3s;
+}
+.dnav.active{width:24px;background:#023047;}
+
+/* ── Tilt wrapper ── */
+.tilt{transform-style:preserve-3d;transition:transform .3s ease;}
+
+/* ── Page entry animation ── */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.panel.active .intro-name{animation:fadeUp .5s ease .05s both;}
+.panel.active .intro-pill{animation:fadeUp .5s ease .12s both;}
+.panel.active .intro-bio{animation:fadeUp .5s ease .18s both;}
+.panel.active .intro-ctas{animation:fadeUp .5s ease .24s both;}
+.panel.active .intro-cos{animation:fadeUp .5s ease .30s both;}
+.panel.active .intro-r{animation:fadeUp .5s ease .1s both;}
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div id="cur-dot"></div>
+<div id="cur-ring"></div>
+
+<!-- Nav -->
+<nav>
+  <div class="nav-logo">K<span>.</span>S</div>
+  <div class="nav-tabs">
+    <button class="ntab active" data-p="intro">Intro</button>
+    <button class="ntab" data-p="ai">AI Experiments</button>
+    <button class="ntab" data-p="cases">Case Studies</button>
+    <button class="ntab" data-p="ui">UI Works</button>
+    <button class="ntab" data-p="testimonials">Testimonials</button>
+    <button class="ntab" data-p="contact">Contact</button>
+  </div>
+  <div class="nav-ctas">
+    <a href="https://docs.google.com/document/d/12R4rbF8kBI6Oz0cJdZo2rtqbYviZZTrb/edit?usp=sharing&ouid=110408520900813495826&rtpof=true&sd=true" target="_blank" class="btn btn-dark">Resume ↗</a>
+    <a href="https://www.linkedin.com/in/karthikeyan-sridhar-146454146/" target="_blank" class="btn btn-ghost">LinkedIn ↗</a>
+  </div>
+</nav>
+
+<!-- Dot nav -->
+<div class="dot-nav">
+  <button class="dnav active" data-p="intro"></button>
+  <button class="dnav" data-p="ai"></button>
+  <button class="dnav" data-p="cases"></button>
+  <button class="dnav" data-p="ui"></button>
+  <button class="dnav" data-p="testimonials"></button>
+  <button class="dnav" data-p="contact"></button>
+</div>
+
+<!-- ════════════════ INTRO ════════════════ -->
+<section id="intro" class="panel active">
+
+  <div class="intro-l">
+    <div class="intro-greet">Hi 👋 — Strategic Designer</div>
+    <h1 class="intro-name">Karthikeyan<br>Sridhar</h1>
+    <div class="intro-pill"><span class="pulse"></span> 11+ Years · B2B & B2C · Available</div>
+    <p class="intro-bio">
+      Driving product excellence for global MNCs including PayPal, Novartis &amp; AthenaHealth.
+      Improved satisfaction from 2.0→4.8/5. Hands-on in AI-driven design workflows.
+    </p>
+    <div class="intro-ctas">
+      <a href="https://docs.google.com/document/d/12R4rbF8kBI6Oz0cJdZo2rtqbYviZZTrb/edit?usp=sharing&ouid=110408520900813495826&rtpof=true&sd=true" target="_blank" class="btn btn-dark btn-lg">View Resume ↗</a>
+      <a href="https://www.linkedin.com/in/karthikeyan-sridhar-146454146/" target="_blank" class="btn btn-ghost btn-lg">LinkedIn ↗</a>
+    </div>
+    <div class="intro-cos">
+      <span class="cos-label">Worked with</span>
+      <img src="https://www.figma.com/api/mcp/asset/a7ff6918-bb7a-402f-a6d5-d33b36683bda" alt="AthenaHealth" class="co-img">
+      <img src="https://www.figma.com/api/mcp/asset/789a887a-be75-4138-934d-c39cdb5ce896" alt="PayPal" class="co-img">
+      <img src="https://www.figma.com/api/mcp/asset/d5fced7f-d29d-479a-b827-34071e96c5ee" alt="Novartis" class="co-img">
+      <img src="https://www.figma.com/api/mcp/asset/785ae648-11f1-4d49-b476-09677cced3af" alt="Microsoft" class="co-img">
+    </div>
+  </div>
+
+  <div class="intro-r">
+    <div class="stat-card">
+      <div class="stat-val" data-count="11" data-suffix="+">0+</div>
+      <div class="stat-lbl">Years of Industry Experience</div>
+    </div>
+    <div class="stat-card dk">
+      <div class="stat-val">4.8<span style="font-size:18px;opacity:.55">/5</span></div>
+      <div class="stat-lbl">User Satisfaction Score Achieved</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-val" data-count="45" data-suffix="%">0%</div>
+      <div class="stat-lbl">Cost Savings in Hiring Process</div>
+    </div>
+    <div class="stat-card soft">
+      <div class="stat-val" style="font-size:20px;letter-spacing:-.4px;color:#023047;">Global<br>MNCs</div>
+      <div class="stat-lbl" style="color:#4A7DAA;margin-top:6px;">PayPal · Novartis · AthenaHealth · Microsoft</div>
+    </div>
+  </div>
+
+</section>
+
+<!-- ════════════════ AI EXPERIMENTS ════════════════ -->
+<section id="ai" class="panel">
+  <div class="sh">
+    <div class="sh-title">AI Experiments</div>
+    <div class="sh-sub">Shipped with Claude · Cursor · Lovable · GitHub</div>
+  </div>
+
+  <div class="grid g3" style="flex:1;min-height:0;">
+
+    <!-- FigSpecs -->
+    <a href="https://www.figspecs.pro/" target="_blank" class="card">
+      <div class="card-img" style="height:200px;">
+        <img src="https://www.figma.com/api/mcp/asset/84b35d67-5a54-4b16-b572-4b390dc66b5c" alt="FigSpecs">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>AI Tool</div>
+          <div class="card-iaction">↗</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-metric">
+          <div class="card-name">FigSpecs</div>
+          <div class="card-rating"><span class="star">★</span> Live</div>
+        </div>
+        <div class="cdiv"></div>
+        <div class="card-title-sm">Figma → Code Spec Generator</div>
+        <div class="card-desc">Generates component specs, anatomy diagrams, accessibility audits, Tailwind v4, JSON &amp; CSS from one Figma component. No copy-paste.</div>
+        <div class="card-foot">
+          <div class="tags"><span class="tag">Claude</span><span class="tag">Cursor</span><span class="tag">Vercel</span></div>
+          <div class="cta-link">Tour →</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- CopyEngine -->
+    <a href="https://www.figma.com/community/plugin/1602747951481753437/copyengine" target="_blank" class="card">
+      <div class="card-img" style="height:200px;">
+        <img src="https://www.figma.com/api/mcp/asset/326acfb6-9a87-4743-b84c-a6b791d5aa2f" alt="CopyEngine">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>Figma Plugin</div>
+          <div class="card-iaction">↗</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-metric">
+          <div class="card-name">CopyEngine</div>
+          <div class="card-rating"><span class="star">★</span> Live</div>
+        </div>
+        <div class="cdiv"></div>
+        <div class="card-title-sm">AI Copy Assistant for Designers</div>
+        <div class="card-desc">Official Figma plugin bridging copy bottlenecks. Collects user input, processes via API &amp; delivers professional copy inside Figma UI.</div>
+        <div class="card-foot">
+          <div class="tags"><span class="tag">Claude</span><span class="tag">Grok</span><span class="tag">Vercel</span></div>
+          <div class="cta-link">Tour →</div>
+        </div>
+      </div>
+    </a>
+
+    <!-- Patient Finance Manager -->
+    <a href="https://braintree-tally.lovable.app/auth" target="_blank" class="card">
+      <div class="card-img" style="height:200px;">
+        <img src="https://www.figma.com/api/mcp/asset/7a056a96-f71b-4618-a9b3-ee0f1a1548dd" alt="Braintree Tally">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#059669;"></span>Healthcare</div>
+          <div class="card-iaction">↗</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-metric">
+          <div class="card-name">Braintree Tally</div>
+          <div class="card-rating"><span class="star">★</span> Live</div>
+        </div>
+        <div class="cdiv"></div>
+        <div class="card-title-sm">Patient Finance Manager</div>
+        <div class="card-desc">Unified patient payment tracking &amp; reallocation tool. One-stop shop for Billers &amp; Front desk staff. Built from design to deployment.</div>
+        <div class="card-foot">
+          <div class="tags"><span class="tag">Lovable</span><span class="tag">GitHub</span></div>
+          <div class="cta-link">Tour →</div>
+        </div>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<!-- ════════════════ CASE STUDIES ════════════════ -->
+<section id="cases" class="panel">
+  <div class="sh">
+    <div class="sh-title">Case Studies</div>
+    <div class="stabs">
+      <button class="stab active" data-tab="cs-work">Work</button>
+      <button class="stab" data-tab="cs-ds">Design System</button>
+      <button class="stab" data-tab="cs-write">UX Writing</button>
+    </div>
+  </div>
+
+  <!-- Work tab -->
+  <div class="tabcontent active" id="cs-work">
+    <div class="grid g2" style="flex:1;min-height:0;">
+
+      <a href="https://www.figma.com/proto/nRwPys8wRiyJm2h7mzwBjz/Neuron?node-id=650-12628&scaling=min-zoom&page-id=274%3A2959&starting-point-node-id=343%3A5657&t=aeExCIpQdGVDEuFJ-1" target="_blank" class="lcard">
+        <div class="lcard-img">
+          <img src="https://www.figma.com/api/mcp/asset/fbce53a2-82bb-4341-8512-6902db25d579" alt="Neuron">
+        </div>
+        <div class="lcard-body">
+          <div>
+            <div class="cat-pill" style="background:rgba(2,48,71,.08);color:#023047;">AthenaHealth · Healthcare</div>
+            <div class="lcard-title">Neuron — Clinical Trial Management</div>
+            <div class="lcard-desc">End-to-end UX for clinical trial recruitment & portfolio management. Complex workflows for coordinators &amp; investigators across enterprise healthcare systems.</div>
+            <div class="chips">
+              <span class="chip">2.0→4.8/5 Satisfaction</span>
+              <span class="chip">Enterprise B2B</span>
+              <span class="chip">Research Ops</span>
+            </div>
+          </div>
+          <div class="cta-link" style="font-size:13px;margin-top:12px;">View Case Study →</div>
+        </div>
+      </a>
+
+      <a href="https://www.figma.com/proto/lO02LcmjVUo1f5qLUmqjcz/UMO_Mission-1R?node-id=376-6369&scaling=scale-down&page-id=67%3A2841&starting-point-node-id=376%3A6369" target="_blank" class="lcard">
+        <div class="lcard-img">
+          <img src="https://www.figma.com/api/mcp/asset/99bff3ca-6643-456b-95d4-76e0eade9728" alt="UMO Mission">
+        </div>
+        <div class="lcard-body">
+          <div>
+            <div class="cat-pill" style="background:rgba(124,58,237,.08);color:#7C3AED;">Enterprise · Product Design</div>
+            <div class="lcard-title">UMO Mission 1R — Enterprise Platform</div>
+            <div class="lcard-desc">Complex enterprise product design spanning multiple user journeys, data visualization &amp; cross-platform consistency for global mission-critical workflows.</div>
+            <div class="chips">
+              <span class="chip">Multi-platform</span>
+              <span class="chip">Data Visualization</span>
+              <span class="chip">Cross-functional</span>
+            </div>
+          </div>
+          <div class="cta-link" style="font-size:13px;margin-top:12px;">View Case Study →</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+
+  <!-- Design System tab -->
+  <div class="tabcontent" id="cs-ds">
+    <a href="https://drive.google.com/file/d/1ZZBY2iemb_sjKfMEKCsCBcm3QuDhOY4R/view?usp=sharing" target="_blank" class="award">
+      <div class="award-ico">🏆</div>
+      <div>
+        <div class="award-text">Digital Disruptor Award — Altimetrik 2021/22</div>
+        <div class="award-sub">Recognized for building WADS multi-branded design system</div>
+      </div>
+      <div class="award-arr">→</div>
+    </a>
+    <div class="lcard" style="flex:1;min-height:0;cursor:default;">
+      <div class="lcard-img" style="width:320px;">
+        <img src="https://www.figma.com/api/mcp/asset/e91d5ca8-b819-4cee-a7ee-02a6005dc193" alt="Design System">
+      </div>
+      <div class="lcard-body">
+        <div>
+          <div class="cat-pill" style="background:rgba(245,166,35,.1);color:#B45309;">WADS · Multi-Brand Design System</div>
+          <div class="lcard-title">Multi-Brand Design System for Web &amp; Mobile</div>
+          <ul style="font-size:13px;color:#666;line-height:1.9;padding-left:18px;margin-top:4px;">
+            <li>Created <strong>750+ Variants</strong> from 60+ Components</li>
+            <li>Advanced Figma tokens → GitHub variable conversion</li>
+            <li>Improved Design TTM by <strong>40%</strong> across all brands</li>
+            <li>Pitched to <strong>25+ Key Stakeholders</strong> across organization</li>
+            <li>Built with Stencil.js adhering to industry best practices</li>
+          </ul>
+        </div>
+        <div class="chips" style="margin-top:14px;">
+          <span class="chip">750+ Variants</span>
+          <span class="chip">60+ Components</span>
+          <span class="chip">40% TTM Gain</span>
+          <span class="chip">Stencil.js</span>
+          <span class="chip">Figma Tokens</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- UX Writing tab -->
+  <div class="tabcontent" id="cs-write">
+    <div class="grid g4" style="flex:1;min-height:0;">
+
+      <a href="https://drive.google.com/file/d/13wmTO4zr-EDYaNRUXdH_dOB8C4lKxm1Y/view?usp=sharing" target="_blank" class="wcard">
+        <div class="wcard-img" style="height:160px;">
+          <img src="https://www.figma.com/api/mcp/asset/f291b2b4-a16f-4834-8758-f03f97ce2ef1" alt="Icon Guidelines">
+        </div>
+        <div class="wcard-body">
+          <div class="badge" style="background:rgba(2,48,71,.07);color:#023047;border-radius:8px;padding:3px 9px;font-size:10px;margin-bottom:8px;width:fit-content;">UX Research</div>
+          <div class="wcard-title">An Exploration on Icon Guidelines</div>
+        </div>
+      </a>
+
+      <a href="https://drive.google.com/file/d/12wiFRhBV8lKUEaXk6is_D7ZqXbJ1PGAO/view?usp=sharing" target="_blank" class="wcard">
+        <div class="wcard-img" style="height:160px;">
+          <img src="https://www.figma.com/api/mcp/asset/f66b849a-fc08-483e-a2b7-6cfd82506d71" alt="Accessibility">
+        </div>
+        <div class="wcard-body">
+          <div class="badge" style="background:rgba(5,150,105,.08);color:#065F46;border-radius:8px;padding:3px 9px;font-size:10px;margin-bottom:8px;width:fit-content;">Accessibility</div>
+          <div class="wcard-title">An Exploration on Accessibility Guidelines</div>
+        </div>
+      </a>
+
+      <a href="https://kats2491.medium.com/power-of-ux-in-product-life-cycle-c90d5262cc69" target="_blank" class="wcard">
+        <div class="wcard-img" style="height:160px;">
+          <img src="https://www.figma.com/api/mcp/asset/febb1614-5e77-4a94-ac51-0f82aefe98fc" alt="Product Lifecycle">
+        </div>
+        <div class="wcard-body">
+          <div class="badge" style="background:rgba(217,4,41,.08);color:#D90429;border-radius:8px;padding:3px 9px;font-size:10px;margin-bottom:8px;width:fit-content;">Medium</div>
+          <div class="wcard-title">Power of UX in Product Lifecycle</div>
+        </div>
+      </a>
+
+      <a href="https://medium.com/p/885ccd33e4db" target="_blank" class="wcard">
+        <div class="wcard-img" style="height:160px;">
+          <img src="https://www.figma.com/api/mcp/asset/78947069-8f07-424c-a1b4-9a638d4b0037" alt="Remote Interview">
+        </div>
+        <div class="wcard-body">
+          <div class="badge" style="background:rgba(217,4,41,.08);color:#D90429;border-radius:8px;padding:3px 9px;font-size:10px;margin-bottom:8px;width:fit-content;">Medium</div>
+          <div class="wcard-title">How to Make UX Remote Interviews Productive</div>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ UI WORKS ════════════════ -->
+<section id="ui" class="panel">
+  <div class="sh">
+    <div class="sh-title">UI Design Works</div>
+    <div class="stabs">
+      <button class="stab active" data-tab="ui-all">All</button>
+      <button class="stab" data-tab="ui-ai">AI Works</button>
+      <button class="stab" data-tab="ui-product">Product Design</button>
+    </div>
+  </div>
+
+  <!-- All tab -->
+  <div class="tabcontent active" id="ui-all" style="flex-direction:row;">
+  <div class="hscroll">
+
+    <a href="https://www.figma.com/proto/nRwPys8wRiyJm2h7mzwBjz/Neuron?node-id=650-12628&scaling=min-zoom&page-id=274%3A2959" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/fbce53a2-82bb-4341-8512-6902db25d579" alt="Neuron Trial">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>Healthcare</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Neuron — Trial Recruitment</div>
+        <div class="card-desc">Clinical trial management dashboard for AthenaHealth.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/proto/nRwPys8wRiyJm2h7mzwBjz/Neuron?node-id=343-5657&scaling=min-zoom&page-id=274%3A2959" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/bfc6dac3-7d21-4446-98ed-290e846a92ec" alt="Portfolio View">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>Healthcare</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Neuron — Portfolio View</div>
+        <div class="card-desc">Portfolio management for clinical trial coordinators.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figspecs.pro/" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/84b35d67-5a54-4b16-b572-4b390dc66b5c" alt="FigSpecs">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>AI Works</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">FigSpecs — Code Spec Generator</div>
+        <div class="card-desc">Generates component specs, anatomy diagrams &amp; accessibility audits from Figma.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/community/plugin/1602747951481753437/copyengine" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/326acfb6-9a87-4743-b84c-a6b791d5aa2f" alt="CopyEngine">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>AI Works</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">CopyEngine — UX Copywriter</div>
+        <div class="card-desc">AI copy assistant for designers. Bridges copy bottlenecks inside Figma.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/proto/lO02LcmjVUo1f5qLUmqjcz/UMO_Mission-1R?node-id=376-6369" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/99bff3ca-6643-456b-95d4-76e0eade9728" alt="UMO Mission">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>Enterprise</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">UMO Mission 1R</div>
+        <div class="card-desc">Enterprise product design for mission-critical workflows.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1hOv7zwf9TKZaxDmz_lbJWRquYR_hkGlH/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/b86827c7-e02b-4c36-aad2-7fde8c0b3d6a" alt="Patients Dashboard">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#059669;"></span>Dashboard</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Patient Information Dashboard</div>
+        <div class="card-desc">Comprehensive clinical patient data management view.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/128KVUhwt7R21gMQjQQyd2jujXl-Fa8kD/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/cedaabd4-c4f9-4634-bac4-ca19823b76c6" alt="CultureSense">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#F59E0B;"></span>Data Viz</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">CultureSense DataViz</div>
+        <div class="card-desc">Culture &amp; sentiment data visualization for organizations.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1jQxQJWJnrc-rfCLdTOBwZwKwl41pwMXa/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/6ada0ee6-4098-4a4d-86d0-c40d7f89a736" alt="Materiality Assessment">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#10B981;"></span>Sustainability</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Materiality Assessment</div>
+        <div class="card-desc">ESG materiality assessment UX for sustainability reporting.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1lrv9OgtHbFmyNX7KsorxtnNMHwjWC2F0/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/be1589f8-6830-4a73-950d-bc77006ba840" alt="Coworking Space">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#8B5CF6;"></span>Product</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Coworking Space App</div>
+        <div class="card-desc">Modern coworking booking &amp; management product design.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+  </div>
+  </div>
+
+  <!-- AI Works tab -->
+  <div class="tabcontent" id="ui-ai" style="flex-direction:row;">
+  <div class="hscroll">
+
+    <a href="https://www.figspecs.pro/" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/84b35d67-5a54-4b16-b572-4b390dc66b5c" alt="FigSpecs">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>AI Tool</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">FigSpecs — Code Spec Generator</div>
+        <div class="card-desc">Generates component specs, anatomy diagrams &amp; accessibility audits from Figma.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/community/plugin/1602747951481753437/copyengine" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/326acfb6-9a87-4743-b84c-a6b791d5aa2f" alt="CopyEngine">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>Figma Plugin</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">CopyEngine — UX Copywriter</div>
+        <div class="card-desc">AI copy assistant for designers. Bridges copy bottlenecks inside Figma.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://braintree-tally.lovable.app/auth" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/7a056a96-f71b-4618-a9b3-ee0f1a1548dd" alt="Braintree Tally">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#059669;"></span>Healthcare</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Braintree Tally</div>
+        <div class="card-desc">Unified patient payment tracking &amp; reallocation tool.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+  </div>
+  </div>
+
+  <!-- Product Design tab -->
+  <div class="tabcontent" id="ui-product" style="flex-direction:row;">
+  <div class="hscroll">
+
+    <a href="https://www.figma.com/proto/nRwPys8wRiyJm2h7mzwBjz/Neuron?node-id=650-12628&scaling=min-zoom&page-id=274%3A2959" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/fbce53a2-82bb-4341-8512-6902db25d579" alt="Neuron Trial">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>Healthcare</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Neuron — Trial Recruitment</div>
+        <div class="card-desc">Clinical trial management dashboard for AthenaHealth.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/proto/nRwPys8wRiyJm2h7mzwBjz/Neuron?node-id=343-5657&scaling=min-zoom&page-id=274%3A2959" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/bfc6dac3-7d21-4446-98ed-290e846a92ec" alt="Portfolio View">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#023047;"></span>Healthcare</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Neuron — Portfolio View</div>
+        <div class="card-desc">Portfolio management for clinical trial coordinators.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://www.figma.com/proto/lO02LcmjVUo1f5qLUmqjcz/UMO_Mission-1R?node-id=376-6369" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/99bff3ca-6643-456b-95d4-76e0eade9728" alt="UMO Mission">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#7C3AED;"></span>Enterprise</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">UMO Mission 1R</div>
+        <div class="card-desc">Enterprise product design for mission-critical workflows.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1hOv7zwf9TKZaxDmz_lbJWRquYR_hkGlH/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/b86827c7-e02b-4c36-aad2-7fde8c0b3d6a" alt="Patients Dashboard">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#059669;"></span>Dashboard</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Patient Information Dashboard</div>
+        <div class="card-desc">Comprehensive clinical patient data management view.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/128KVUhwt7R21gMQjQQyd2jujXl-Fa8kD/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/cedaabd4-c4f9-4634-bac4-ca19823b76c6" alt="CultureSense">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#F59E0B;"></span>Data Viz</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">CultureSense DataViz</div>
+        <div class="card-desc">Culture &amp; sentiment data visualization for organizations.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1jQxQJWJnrc-rfCLdTOBwZwKwl41pwMXa/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/6ada0ee6-4098-4a4d-86d0-c40d7f89a736" alt="Materiality Assessment">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#10B981;"></span>Sustainability</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Materiality Assessment</div>
+        <div class="card-desc">ESG materiality assessment UX for sustainability reporting.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+    <a href="https://drive.google.com/file/d/1lrv9OgtHbFmyNX7KsorxtnNMHwjWC2F0/view?usp=sharing" target="_blank" class="card" style="width:240px;flex-shrink:0;">
+      <div class="card-img" style="height:160px;">
+        <img src="https://www.figma.com/api/mcp/asset/be1589f8-6830-4a73-950d-bc77006ba840" alt="Coworking Space">
+        <div class="card-overlay">
+          <div class="badge"><span class="bdot" style="background:#8B5CF6;"></span>Product</div>
+        </div>
+      </div>
+      <div class="card-body">
+        <div class="card-title-sm">Coworking Space App</div>
+        <div class="card-desc">Modern coworking booking &amp; management product design.</div>
+        <div class="cta-link" style="margin-top:8px;">View →</div>
+      </div>
+    </a>
+
+  </div>
+  </div>
+
+</section>
+
+<!-- ════════════════ TESTIMONIALS ════════════════ -->
+<section id="testimonials" class="panel">
+  <div class="sh">
+    <div class="sh-title">Testimonials</div>
+    <div class="sh-sub">What collaborators say about working with me</div>
+  </div>
+
+  <div class="hscroll" style="align-items:stretch;">
+
+    <div class="tcard" style="width:340px;height:100%;">
+      <img src="https://www.figma.com/api/mcp/asset/4bd99087-308d-4c67-811e-2c97a437e0d3" alt="Testimony 1">
+    </div>
+    <div class="tcard" style="width:320px;height:100%;">
+      <img src="https://www.figma.com/api/mcp/asset/35fc708e-220e-4d7d-b97c-9c868840ae56" alt="Testimony 2">
+    </div>
+    <div class="tcard" style="width:340px;height:100%;">
+      <img src="https://www.figma.com/api/mcp/asset/aa0e4526-bef4-4b6f-9379-d7e82a2d9b74" alt="Testimony 3">
+    </div>
+    <div class="tcard" style="width:320px;height:100%;">
+      <img src="https://www.figma.com/api/mcp/asset/d05f1581-faa1-4685-ae05-9ab0e57c01dc" alt="Testimony 4">
+    </div>
+    <div class="tcard" style="width:320px;height:100%;">
+      <img src="https://www.figma.com/api/mcp/asset/4a4c066f-f7a8-4c44-afbe-be46e4a2d1c6" alt="Testimony 5">
+    </div>
+
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT ════════════════ -->
+<section id="contact" class="panel">
+  <div class="contact-box">
+    <div class="contact-eye">Let's Connect</div>
+    <h2 class="contact-h">Find my profile<br>interesting?</h2>
+    <p class="contact-sub">
+      Open to strategic design roles, product leadership &amp; exciting collaborations.<br>
+      11+ years shaping products for global MNCs across fintech &amp; healthcare.
+    </p>
+    <div class="contact-ctas">
+      <a href="https://docs.google.com/document/d/12R4rbF8kBI6Oz0cJdZo2rtqbYviZZTrb/edit?usp=sharing&ouid=110408520900813495826&rtpof=true&sd=true" target="_blank" class="btn btn-dark btn-lg">View Resume ↗</a>
+      <a href="https://www.linkedin.com/in/karthikeyan-sridhar-146454146/" target="_blank" class="btn btn-ghost btn-lg">Connect on LinkedIn ↗</a>
+    </div>
+    <div class="contact-ft">Karthikeyan Sridhar · Strategic Designer · Portfolio 2026</div>
+  </div>
+</section>
+
+<script>
+/* ── Custom cursor ── */
+const dot = document.getElementById('cur-dot');
+const ring = document.getElementById('cur-ring');
+let mx=0,my=0,rx=0,ry=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  dot.style.left=mx+'px'; dot.style.top=my+'px';
+});
+(function animate(){
+  rx+=(mx-rx)*.13; ry+=(my-ry)*.13;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animate);
+})();
+
+document.querySelectorAll('a,button').forEach(el=>{
+  el.addEventListener('mouseenter',()=>document.body.classList.add('cursor-grow'));
+  el.addEventListener('mouseleave',()=>document.body.classList.remove('cursor-grow'));
+});
+
+/* ── Section switching ── */
+function goTo(id){
+  document.querySelectorAll('.panel').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.ntab,.dnav').forEach(t=>t.classList.remove('active'));
+  document.getElementById(id)?.classList.add('active');
+  document.querySelectorAll(`[data-p="${id}"]`).forEach(t=>t.classList.add('active'));
+  if(id==='intro') runCounters();
+}
+
+document.querySelectorAll('[data-p]').forEach(el=>
+  el.addEventListener('click',()=>goTo(el.dataset.p))
+);
+
+/* ── Sub-tabs in case studies ── */
+document.querySelectorAll('.stab').forEach(pill=>{
+  pill.addEventListener('click',()=>{
+    const sec=pill.closest('.panel');
+    sec.querySelectorAll('.stab').forEach(p=>p.classList.remove('active'));
+    sec.querySelectorAll('.tabcontent').forEach(c=>c.classList.remove('active'));
+    pill.classList.add('active');
+    document.getElementById(pill.dataset.tab)?.classList.add('active');
+  });
+});
+
+/* ── Counters ── */
+function runCounters(){
+  document.querySelectorAll('[data-count]').forEach(el=>{
+    const target=+el.dataset.count;
+    const suffix=el.dataset.suffix||'';
+    let cur=0; const step=target/60;
+    clearInterval(el._timer);
+    el._timer=setInterval(()=>{
+      cur=Math.min(cur+step,target);
+      el.textContent=Math.round(cur)+suffix;
+      if(cur>=target) clearInterval(el._timer);
+    },16);
+  });
+}
+runCounters();
+
+/* ── Card tilt on mouse move ── */
+document.querySelectorAll('.card,.lcard,.wcard,.tcard').forEach(card=>{
+  card.addEventListener('mousemove',e=>{
+    const r=card.getBoundingClientRect();
+    const x=e.clientX-r.left-r.width/2;
+    const y=e.clientY-r.top-r.height/2;
+    const f=0.007;
+    card.style.transform=
+      `translateY(-9px) scale(1.01) rotateX(${-y*f}deg) rotateY(${x*f}deg)`;
+  });
+  card.addEventListener('mouseleave',()=>{ card.style.transform=''; });
+});
+
+/* ── Keyboard nav ── */
+const order=['intro','ai','cases','ui','testimonials','contact'];
+document.addEventListener('keydown',e=>{
+  const cur=document.querySelector('.ntab.active')?.dataset.p||'intro';
+  const i=order.indexOf(cur);
+  if(e.key==='ArrowRight'&&i<order.length-1) goTo(order[i+1]);
+  if(e.key==='ArrowLeft'&&i>0) goTo(order[i-1]);
+});
+</script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+{
+  "permissions": {
+    "allow": [
+      "mcp__Figma__get_design_context",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__whoami",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__create_new_file",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__get_libraries",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__search_design_system",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__use_figma",
+      "mcp__Figma__get_screenshot",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__get_screenshot",
+      "Read(//c/Users/91961/AppData/Roaming/Claude/local-agent-mode-sessions/skills-plugin/ee7c13b3-21d7-40d7-93d0-a71c26bfb4f6/4e797f05-0cf6-4d6e-a4fc-23b60802c39a/skills/docx/**)",
+      "Bash(node -e \"require\\('docx'\\)\")",
+      "Bash(npm install *)",
+      "Bash(node -e \"require\\('docx'\\); console.log\\('ok'\\)\")",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__get_design_context",
+      "mcp__e8b7acb8-6bd5-4f9c-a2dc-4e63f5fa197b__get_metadata",
+      "WebFetch(domain:spencergabor.work)",
+      "Read(//c/Users/91961/.cursor/FigDoc/figdoc4/**)",
+      "Bash(gh pr *)",
+      "PowerShell(Get-Command gh -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-ChildItem \"C:\\\\Program Files\\\\GitHub CLI\\\\\" -ErrorAction SilentlyContinue; Get-ChildItem \"C:\\\\Program Files \\(x86\\)\\\\GitHub CLI\\\\\" -ErrorAction SilentlyContinue; Get-ChildItem \"$env:LOCALAPPDATA\\\\Programs\\\\gh\\\\\" -ErrorAction SilentlyContinue)",
+      "mcp__Figma__get_metadata",
+      "mcp__Figma__get_variable_defs",
+      "mcp__mcp-registry__search_mcp_registry",
+      "mcp__plugin_figma_figma__get_metadata",
+      "mcp__plugin_figma_figma__use_figma",
+      "mcp__plugin_figma_figma__search_design_system",
+      "Skill(figma:figma-use)",
+      "Skill(figma:figma-use:*)",
+      "Bash(pandoc \"C:\\\\Users\\\\91961\\\\Downloads\\\\context-skill.md.docx\" -o - --track-changes=all)",
+      "PowerShell(Get-Command pandoc, python, python3 -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-ChildItem \"C:\\\\Users\\\\91961\\\\Downloads\\\\context-skill-unpacked\" -Recurse -Force | ForEach-Object { $_.FullName })"
+    ]
+  }
+}
